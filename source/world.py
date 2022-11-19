@@ -52,21 +52,25 @@ class World:
 
         while(self.alive):
             self.iter += 1
-            next_step = self.snake.next_step()
-            next_x = self.snake.x + next_step.dx
-            next_y = self.snake.y + next_step.dy
-            if self.get_field(next_x, next_y) == 'wall' or self.get_field(next_x, next_y) == 'body':
-                if not self.only_legal_moves:
-                    self.alive = False
+            if self.snake.pathing:
+                (step, (x, y)) = self.snake.next_step()
+                self.set_field(x, y, step)
             else:
-                if self.get_field(next_x, next_y) == 'food':
-                    self.snake.body.append(self.snake.tail)
-                    self.generate_food()
+                next_step = self.snake.next_step()
+                next_x = self.snake.x + next_step.dx
+                next_y = self.snake.y + next_step.dy
+                if self.get_field(next_x, next_y) == 'wall' or self.get_field(next_x, next_y) == 'body':
+                    if not self.only_legal_moves:
+                        self.alive = False
                 else:
-                    self.set_field(self.snake.tail[0], self.snake.tail[1], 'empty')
-                    self.set_field(self.snake.x, self.snake.y, 'body')
-                    self.snake.step(next_step)
-                    self.set_field(self.snake.x, self.snake.y, 'head')
+                    if self.get_field(next_x, next_y) == 'food':
+                        self.snake.body.append(self.snake.tail)
+                        self.generate_food()
+                    else:
+                        self.set_field(self.snake.tail[0], self.snake.tail[1], 'empty')
+                        self.set_field(self.snake.x, self.snake.y, 'body')
+                        self.snake.step(next_step)
+                        self.set_field(self.snake.x, self.snake.y, 'head')
 
             print(self)
             if self.iter > self.max_iter:

@@ -18,6 +18,7 @@ class Snake:
     self.size = size
     self.body = self.init_body()
     self.tail = self.body[-1]
+    self.pathing = False
       
   def step(self, step:Step) -> None:
     """Makes the snake take the input step by updating its coordinates.

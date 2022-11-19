@@ -34,4 +34,12 @@ class Field:
             return 'B'
         if self.field_type == 'food':
             return 'F'
+        if self.field_type == 'up':
+            return '\u2191'
+        if self.field_type == 'right':
+            return '\u2192'
+        if self.field_type == 'down':
+            return '\u2193'
+        if self.field_type == 'left':
+            return '\u2190'
         return 'err'
