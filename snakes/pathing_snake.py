@@ -43,12 +43,9 @@ class Pathing_Snake(Snake):
         """
         
         if self.pathing:
-            next_head = self.body[0]
-            while self.world.get_field(*next_head) != 'empty':
-                print(self.world.get_field(*next_head))
-                next_step = super().next_step()
-                next_head = (self.path_head[0]+next_step.dx, self.path_head[1]+next_step.dy)
-            print(self.world.get_field(*next_head))
+            legal_moves = self.world.get_legal_moves(*self.path_head, False)
+            next_step = super().next_step(legal_moves)
+            next_head = (self.path_head[0]+next_step.dx, self.path_head[1]+next_step.dy)
             self.path.append(next_step)
             old_path_head = self.path_head
 

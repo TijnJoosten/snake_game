@@ -44,7 +44,7 @@ class Snake:
     """
 
     if possible_steps:
-      return random.choice(list(steps))
+      return random.choice(list(possible_steps))
     return steps[random.choice(list(steps))]
   
   def init_body(self) -> list[tuple[int]]:

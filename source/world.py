@@ -1,5 +1,6 @@
 import random
 from source.field import Field
+from source.step import *
 
 class World:
     """Keeps track of the state of the game. This includes the world and the run loop."""
@@ -59,7 +60,7 @@ class World:
                 next_step = self.snake.next_step()
                 next_x = self.snake.x + next_step.dx
                 next_y = self.snake.y + next_step.dy
-                if self.get_field(next_x, next_y) == 'wall' or self.get_field(next_x, next_y) == 'body':
+                if self.get_field(next_x, next_y) in ['wall', 'body', 'head']:
                     if not self.only_legal_moves:
                         self.alive = False
                 else:
@@ -75,6 +76,31 @@ class World:
             print(self)
             if self.iter > self.max_iter:
                 self.alive = False
+
+    def get_legal_moves(self, x:int, y:int, allow_path:bool=True) -> list[Step]:
+        """Determines the legal moves a snake can take from a given coordinate.
+
+        Args:
+            x (int): x-coordinate.
+            y (int): y-coordinate.
+            allow_path (bool): Determines if it is legal to pass through a path. Defaults to True.
+
+        Returns:
+            list[Step]: Legal moves the snake can take.
+        """
+        
+        if allow_path:
+            illegal_fields = ['wall', 'head', 'body']
+        else:
+            illegal_fields = ['wall', 'head', 'body', 'up', 'right', 'down', 'left']
+
+        legal_moves = []
+        for step in steps.values():
+            next_field = self.get_field(x + step.dx, y + step.dy)
+            if next_field not in illegal_fields:
+                legal_moves.append(step)
+        
+        return legal_moves
     
     def get_field(self, x:int, y:int) -> str:
         """Returns the type of the field.
