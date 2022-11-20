@@ -33,15 +33,18 @@ class Snake:
     self.body.pop()
     self.tail = self.body[-1]
 
-  def next_step(self) -> Step:
+  def next_step(self, possible_steps = None) -> Step:
     """Determines the next step the snake will take.
 
     This snake will choose the next step randomly.
 
     Returns:
         Step: the next step the snake wants to take.
+        possible_steps: optional list containing all steps to choose from. Defaults to None.
     """
 
+    if possible_steps:
+      return random.choice(list(steps))
     return steps[random.choice(list(steps))]
   
   def init_body(self) -> list[tuple[int]]:
